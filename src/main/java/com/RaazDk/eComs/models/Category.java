@@ -1,5 +1,8 @@
 package com.RaazDk.eComs.models;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
 public class Category {
 
     public Long getCategoryId() {
@@ -23,6 +26,7 @@ public class Category {
         CategoryName = categoryName;
     }
 
+    @Id
     Long CategoryId;
     String CategoryName;
 }
