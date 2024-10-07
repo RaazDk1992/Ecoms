@@ -1,6 +1,9 @@
 package com.RaazDk.eComs.controller;
 
 import com.RaazDk.eComs.models.Category;
+import com.RaazDk.eComs.services.CategoryService;
+import com.RaazDk.eComs.services.CategoryServiceIml;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,15 +15,22 @@ import java.util.List;
 @RestController
 public class CategoryController {
 
-    List<Category> categories = new ArrayList<>();
+    @Autowired
+    private CategoryService categoryService;
+
     @GetMapping("/api/public/categories")
     public List<Category> getCategories(){
-        return categories;
+        return categoryService.getCategories();
+    }
+
+    @GetMapping("/hello")
+    public String sayHi(){
+        return  "Hi";
     }
 
     @PostMapping("/api/admin/addcategory")
     public String addCategory(@RequestBody Category category){
-        categories.add(category);
+        categoryService.addCategory(category);
         return category.getCategoryId().toString();
     }
 
