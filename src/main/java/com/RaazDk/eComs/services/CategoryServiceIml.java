@@ -25,8 +25,11 @@ public class CategoryServiceIml  implements CategoryService{
     }
 
     @Override
-    public String updateCategory(Category category) {
-        return "";
+    public String updateCategory(Category categoryToUpdate) {
+        Category category = categories.stream().filter(c-> c.getCategoryId().equals(categoryToUpdate.getCategoryId())).
+                findFirst().orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Item not found!"));
+        category.setCategoryName(categoryToUpdate.getCategoryName());
+        return "Category with Id :"+categoryToUpdate.getCategoryId()+" Updated Successfully!!";
     }
 
     @Override

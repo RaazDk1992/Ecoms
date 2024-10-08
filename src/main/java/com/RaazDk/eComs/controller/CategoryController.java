@@ -2,14 +2,13 @@ package com.RaazDk.eComs.controller;
 
 import com.RaazDk.eComs.models.Category;
 import com.RaazDk.eComs.services.CategoryService;
-import com.RaazDk.eComs.services.CategoryServiceIml;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
+import java.net.http.HttpResponse;
 import java.util.List;
 
 @RestController
@@ -23,10 +22,6 @@ public class CategoryController {
         return categoryService.getCategories();
     }
 
-    @GetMapping("/hello")
-    public String sayHi(){
-        return  "Hi";
-    }
 
     @PostMapping("/api/admin/addcategory")
     public ResponseEntity<String> addCategory(@RequestBody Category category){
@@ -49,6 +44,24 @@ public class CategoryController {
             return new ResponseEntity<>(e.getReason(),e.getStatusCode());
         }
 
+    }
+    @PutMapping("/api/admin/categories/update")
+    public ResponseEntity<String> updateCategory(@RequestBody  Category c){
+        try{
+            String status= categoryService.updateCategory(c);
+            return new ResponseEntity<>(status, HttpStatus.OK);
+        }catch (ResponseStatusException e){
+            System.out.println("error = " + e.getMessage());
+            return new ResponseEntity<>(e.getReason(),e.getStatusCode());
+        }
+    }
+    /**
+     * Say Hi to Api
+     * @return
+     */
+    @GetMapping("/hello")
+    public String sayHi(){
+        return  "Hi";
     }
 
 }
