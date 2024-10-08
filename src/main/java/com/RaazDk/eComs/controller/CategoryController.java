@@ -39,12 +39,13 @@ public class CategoryController {
 
     }
 
-    @DeleteMapping("/api/admin/delete/{id}")
-    public ResponseEntity<String> deleteCategory(@RequestBody Long id){
+    @DeleteMapping("/api/admin/categories/delete/{id}")
+    public ResponseEntity<String> deleteCategory(@PathVariable Long id){
         try{
             String status= categoryService.deleteCategory(id);
             return new ResponseEntity<>(status, HttpStatus.OK);
         }catch (ResponseStatusException e){
+            System.out.println("error = " + e.getMessage());
             return new ResponseEntity<>(e.getReason(),e.getStatusCode());
         }
 
