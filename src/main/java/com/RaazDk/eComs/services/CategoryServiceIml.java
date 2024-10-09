@@ -1,6 +1,8 @@
 package com.RaazDk.eComs.services;
 
 import com.RaazDk.eComs.models.Category;
+import com.RaazDk.eComs.repository.CategoryRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -12,15 +14,18 @@ import java.util.List;
 @Service
 public class CategoryServiceIml  implements CategoryService{
 
+    @Autowired
+    CategoryRepository categoryRepository;
+
     List<Category> categories = new ArrayList<>();
     @Override
     public List<Category> getCategories() {
-        return categories;
+        return categoryRepository.findAll();
     }
 
     @Override
     public String addCategory(Category category) {
-        categories.add(category);
+        categoryRepository.save(category);
         return "Added item";
     }
 
@@ -34,10 +39,10 @@ public class CategoryServiceIml  implements CategoryService{
 
     @Override
     public String deleteCategory(Long categoryId) {
-        Category category = categories.stream()
+        Category category = categoryRepository.findAll().stream()
                 .filter(c -> c.getCategoryId().equals(categoryId))
                 .findFirst().orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"Item not found!!"));
-        categories.remove(category);
+        categoryRepository.delete(category);
         return "Category with Id"+category.getCategoryId()+" Deleted.";
     }
 }

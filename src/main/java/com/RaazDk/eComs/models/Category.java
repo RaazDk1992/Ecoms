@@ -7,6 +7,8 @@ import jakarta.persistence.Id;
 @Entity
 public class Category {
 
+    public Category(){}
+
     public Long getCategoryId() {
         return CategoryId;
     }
