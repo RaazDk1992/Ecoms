@@ -1,7 +1,6 @@
 package com.RaazDk.eComs.services;
 
 import com.RaazDk.eComs.models.Category;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
