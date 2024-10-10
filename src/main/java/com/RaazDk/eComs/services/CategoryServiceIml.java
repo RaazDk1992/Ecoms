@@ -4,7 +4,9 @@ import com.RaazDk.eComs.models.Category;
 import com.RaazDk.eComs.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
@@ -30,17 +32,11 @@ public class CategoryServiceIml  implements CategoryService{
     }
 
     @Override
-    public String updateCategory(Category categoryToUpdate) {
-        Optional<Category> category = categoryRepository.findAll().stream().filter(c-> c.getCategoryId().equals(categoryToUpdate.getCategoryId())).
-                findFirst();
-        System.out.println("categoryToUpdate = " + category.toString());
-        if(category.isPresent()){
-            Category existingCategory = category.get();
-            existingCategory.setCategoryName(categoryToUpdate.getCategoryName());
-            return  "Item with Id:"+existingCategory.getCategoryId()+" updated!!";
-        } else {
-            throw  new ResponseStatusException(HttpStatus.NOT_FOUND,"Category not found");
-        }
+    public String updateCategory(Category categoryToUpdate, Long catId) {
+        Optional<Category> savedCategory = categoryRepository.findById(catId);
+        Category category = savedCategory.orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Item not found!!"));
+        categoryRepository.save(categoryToUpdate);
+        return "CategoryId"+catId+" Updated to "+categoryToUpdate.getCategoryName();
     }
 
     @Override

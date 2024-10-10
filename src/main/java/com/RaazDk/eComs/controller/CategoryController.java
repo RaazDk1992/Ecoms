@@ -12,6 +12,7 @@ import java.net.http.HttpResponse;
 import java.util.List;
 
 @RestController
+
 public class CategoryController {
 
     @Autowired
@@ -48,7 +49,7 @@ public class CategoryController {
     @PutMapping("/api/admin/categories/update")
     public ResponseEntity<String> updateCategory(@RequestBody  Category c){
         try{
-            String status= categoryService.updateCategory(c);
+            String status= categoryService.updateCategory(c,c.getCategoryId());
             return new ResponseEntity<>(status, HttpStatus.OK);
         }catch (ResponseStatusException e){
             System.out.println("error = " + e.getMessage());
