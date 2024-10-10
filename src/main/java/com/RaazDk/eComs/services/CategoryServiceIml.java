@@ -36,15 +36,14 @@ public class CategoryServiceIml  implements CategoryService{
         Optional<Category> savedCategory = categoryRepository.findById(catId);
         Category category = savedCategory.orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Item not found!!"));
         categoryRepository.save(categoryToUpdate);
-        return "CategoryId"+catId+" Updated to "+categoryToUpdate.getCategoryName();
+        return "CategoryId"+catId+" Updated to "+categoryToUpdate.toString();
     }
 
     @Override
     public String deleteCategory(Long categoryId) {
-        Category category = categoryRepository.findAll().stream()
-                .filter(c -> c.getCategoryId().equals(categoryId))
-                .findFirst().orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"Item not found!!"));
+        Optional<Category> savedCategory = categoryRepository.findById(categoryId);
+        Category category = savedCategory.orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Item not found!!"));
         categoryRepository.delete(category);
-        return "Category with Id"+category.getCategoryId()+" Deleted.";
+        return "CategoryId"+categoryId+" Deleted successfully!!";
     }
 }

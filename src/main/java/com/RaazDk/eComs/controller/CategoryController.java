@@ -12,7 +12,6 @@ import java.net.http.HttpResponse;
 import java.util.List;
 
 @RestController
-
 public class CategoryController {
 
     @Autowired
@@ -27,6 +26,7 @@ public class CategoryController {
     @PostMapping("/api/admin/addcategory")
     public ResponseEntity<String> addCategory(@RequestBody Category category){
        try{
+
            String status= categoryService.addCategory(category);
            return new ResponseEntity<>(status,HttpStatus.OK);
        }catch (ResponseStatusException e){
