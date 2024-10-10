@@ -10,6 +10,9 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+/**
+ * Category Class
+ */
 public class Category {
 
     @Id
