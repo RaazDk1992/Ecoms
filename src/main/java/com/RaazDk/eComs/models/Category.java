@@ -1,9 +1,6 @@
 package com.RaazDk.eComs.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -17,7 +14,23 @@ public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     Long CategoryId;
     String CategoryName;
+
+
+    @Entity
+    @NoArgsConstructor@AllArgsConstructor
+    @Data
+
+    public static class Product {
+        @Id @GeneratedValue(strategy = GenerationType.AUTO)
+        Long productId;
+        String productName;
+        int price;
+        int quantity;
+        @OneToOne(cascade = CascadeType.ALL)
+        @JoinColumn(name = "category_ref")
+        Category category;
+
+    }
 }
