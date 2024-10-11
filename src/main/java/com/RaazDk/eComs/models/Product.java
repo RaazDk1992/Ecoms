@@ -25,6 +25,7 @@ public class Product {
     int quantity;
     int price;
     int minQuantity;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "category_ref")
     private Category category;
