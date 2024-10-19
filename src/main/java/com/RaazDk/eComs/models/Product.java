@@ -19,6 +19,7 @@ public class Product {
     Long productId;
     String productName;
     String manufacturer;
+    String imagePath;
     Date manufactureDate;
     Date expiryDate;
     Boolean doesExpire;
@@ -29,6 +30,5 @@ public class Product {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "category_ref")
     private Category category;
-
 
 }
