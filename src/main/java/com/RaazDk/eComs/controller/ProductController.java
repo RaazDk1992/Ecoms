@@ -21,6 +21,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Date;
 
 /**
@@ -61,9 +62,12 @@ public class ProductController {
             @RequestParam("categoryId") Long categoryId,
             @RequestParam("imageFile") MultipartFile imageFile
 ) {
-        System.out.println("productName = " + productName);
+        //System.out.println("productName = " + productName);
        try{
+           String folderPath = "uploads";
            SimpleDateFormat fromat = new SimpleDateFormat("dd-MM-yyyy");
+           String currentInstant  =Instant.now().toString().replace(':','_');
+
            Product product = new Product();
            product.setProductName(productName);
            product.setManufacturer(manufacturer);
@@ -79,22 +83,19 @@ public class ProductController {
            Category cat = categoryRepository.findById(categoryId)
                    .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"Category could not be found!!"));
            product.setCategory(cat);
-            if(imageFile !=null && !imageFile.isEmpty()){
-                String filePath = "uploads";
-                Path path = Paths.get(filePath);
-                if(!Files.exists(path)){
+            if(imageFile !=null && !imageFile.isEmpty()) {
+
+                String filePath = "uploads" + "/" + cat.getCategoryName() + "/" +currentInstant+ imageFile.getOriginalFilename();
+                Path path = Paths.get(folderPath);
+                FileOutputStream fos = new FileOutputStream(filePath);
+
+                if (!Files.exists(path)) {
                     Files.createDirectories(path);
-                } else {
-                    FileOutputStream fos = new FileOutputStream(filePath+"/"+imageFile.getOriginalFilename());
+                }
                     fos.write(imageFile.getBytes());
                     product.setImagePath(filePath);
-                }
-
-
             }
-
-           productService.addProduct(product);
-           return new ResponseEntity<>(product.toString(),HttpStatus.OK);
+           return new ResponseEntity<>(productService.addProduct(product),HttpStatus.OK);
        }catch(ResponseStatusException e){
            return new ResponseEntity<>(e.getReason(),e.getStatusCode());
 
