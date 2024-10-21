@@ -46,6 +46,9 @@ public class ProductController {
     @Value("${file.upload-dir}")
     private  String UPLOAD_DIRECTORY ;
 
+    @Value("${app.url}")
+    private String appUrl;
+
 
 
     /**
@@ -104,7 +107,7 @@ public class ProductController {
 
                 fos.write(imageFile.getBytes());
                 System.out.println( "imageFile =" + filePath);
-                    product.setImagePath("http://localhost:8080/uploads/"+cat.getCategoryName()+"/"+currentInstant+imageFile.getOriginalFilename());
+                    product.setImagePath(appUrl+"/"+cat.getCategoryName()+"/"+currentInstant+imageFile.getOriginalFilename());
             }
            return new ResponseEntity<>(productService.addProduct(product),HttpStatus.OK);
        }catch(ResponseStatusException e){
