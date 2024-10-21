@@ -3,10 +3,12 @@ package com.RaazDk.eComs.controller;
 import com.RaazDk.eComs.models.Category;
 import com.RaazDk.eComs.models.Product;
 import com.RaazDk.eComs.repository.CategoryRepository;
+import com.RaazDk.eComs.repository.ProductRepository;
 import com.RaazDk.eComs.services.CategoryService;
 import com.RaazDk.eComs.services.ProductService;
 import com.RaazDk.eComs.services.ProductServiceIml;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +25,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Controller takes care of http requests coming from client side and
@@ -39,13 +42,19 @@ public class ProductController {
     private CategoryRepository categoryRepository;
 
 
+    //Path for storing uploads
+    @Value("${file.upload-dir}")
+    private  String UPLOAD_DIRECTORY ;
+
+
+
     /**
      * Endpoint for getting all products details.
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/api/public/products")
-    public String getCategoryList() {
-
-        return "Hello there";
+    public List<Product> getCategoryList() {
+        return productService.getProducts();
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
@@ -85,15 +94,17 @@ public class ProductController {
            product.setCategory(cat);
             if(imageFile !=null && !imageFile.isEmpty()) {
 
-                String filePath = "uploads" + "/" + cat.getCategoryName() + "/" +currentInstant+ imageFile.getOriginalFilename();
-                Path path = Paths.get(folderPath);
-                FileOutputStream fos = new FileOutputStream(filePath);
+                String filePath = UPLOAD_DIRECTORY+"/"+ cat.getCategoryName() + "/" +currentInstant+ imageFile.getOriginalFilename();
+                Path path = Paths.get(UPLOAD_DIRECTORY+"/"+cat.getCategoryName());
 
                 if (!Files.exists(path)) {
                     Files.createDirectories(path);
                 }
-                    fos.write(imageFile.getBytes());
-                    product.setImagePath(filePath);
+                FileOutputStream fos = new FileOutputStream(filePath);
+
+                fos.write(imageFile.getBytes());
+                System.out.println( "imageFile =" + filePath);
+                    product.setImagePath("http://localhost:8080/uploads/"+cat.getCategoryName()+"/"+currentInstant+imageFile.getOriginalFilename());
             }
            return new ResponseEntity<>(productService.addProduct(product),HttpStatus.OK);
        }catch(ResponseStatusException e){

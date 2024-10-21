@@ -39,6 +39,6 @@ public class ProductServiceIml  implements ProductService{
 
     @Override
     public List<Product> getProducts() {
-        return List.of();
+        return productRepository.findAll();
     }
 }
