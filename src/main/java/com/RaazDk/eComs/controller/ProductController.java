@@ -55,7 +55,7 @@ public class ProductController {
      * Endpoint for getting all products details.
      */
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/api/public/products")
+    @GetMapping("/api/products")
     public List<Product> getCategoryList() {
         return productService.getProducts();
     }
