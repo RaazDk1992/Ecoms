@@ -60,7 +60,7 @@ public class CategoryController {
      * Say Hi to Api
      * @return
      */
-    @GetMapping("/hello")
+    @GetMapping("/api/public/hello")
     public String sayHi(){
         return  "Hi";
     }
