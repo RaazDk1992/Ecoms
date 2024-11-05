@@ -1,6 +1,6 @@
 package com.RaazDk.eComs.security.services;
 
-import com.RaazDk.eComs.security.model.EcomUser;
+import com.RaazDk.eComs.models.EcomUser;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

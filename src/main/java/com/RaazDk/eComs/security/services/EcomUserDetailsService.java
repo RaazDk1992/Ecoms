@@ -1,7 +1,7 @@
 package com.RaazDk.eComs.security.services;
 
-import com.RaazDk.eComs.security.model.EcomUser;
-import com.RaazDk.eComs.security.repository.EcomUserRepository;
+import com.RaazDk.eComs.models.EcomUser;
+import com.RaazDk.eComs.repository.EcomUserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

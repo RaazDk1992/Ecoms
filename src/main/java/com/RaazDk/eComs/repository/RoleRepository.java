@@ -1,7 +1,7 @@
-package com.RaazDk.eComs.security.repository;
+package com.RaazDk.eComs.repository;
 
-import com.RaazDk.eComs.security.model.AppRole;
-import com.RaazDk.eComs.security.model.Role;
+import com.RaazDk.eComs.models.AppRole;
+import com.RaazDk.eComs.models.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

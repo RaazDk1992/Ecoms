@@ -1,4 +1,4 @@
-package com.RaazDk.eComs.security.model;
+package com.RaazDk.eComs.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
@@ -9,7 +9,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 

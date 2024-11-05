@@ -1,4 +1,4 @@
-package com.RaazDk.eComs.security.model;
+package com.RaazDk.eComs.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
