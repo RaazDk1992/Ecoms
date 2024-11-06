@@ -27,8 +27,6 @@ public class Role {
     @ToString.Exclude
     @Enumerated(EnumType.STRING)
     @Column(name = "role_name")
-    @NotBlank
-    @Max(40)
     private AppRole roleName;
 
 

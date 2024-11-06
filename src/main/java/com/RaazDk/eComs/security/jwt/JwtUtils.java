@@ -46,10 +46,11 @@ public class JwtUtils {
 
     public String generateTokenFromUsername(UserDetails user){
         String username = user.getUsername();
+        long expDate = new Date().getTime()+Long.parseLong(jwtExpirationMs);
         return Jwts.builder()
                 .subject(username)
                 .issuedAt(new Date())
-                .expiration(new Date(new Date().getTime()+jwtExpirationMs))
+                .expiration(new Date(expDate))
                 .signWith(key())
                 .compact()
                 ;

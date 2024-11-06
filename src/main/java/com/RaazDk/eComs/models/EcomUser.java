@@ -18,6 +18,10 @@ import java.util.Objects;
         @UniqueConstraint(columnNames = "email")
 })
 public class EcomUser {
+
+    public EcomUser(){
+
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userId;

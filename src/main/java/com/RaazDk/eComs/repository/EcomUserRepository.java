@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface EcomUserRepository  extends JpaRepository<EcomUser,Long> {
 
     Optional<EcomUser> findByUserName(String username);
+
+    boolean existsByUserName(String user1);
 }

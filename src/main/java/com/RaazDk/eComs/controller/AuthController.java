@@ -46,6 +46,8 @@ public class AuthController {
             Map<String, Object> map = new HashMap<>();
             map.put("message","Bad credentials");
             map.put("status","false");
+
+            System.out.println(ex.getMessage());
             return new ResponseEntity<>(map, HttpStatus.NOT_FOUND);
         }
 
