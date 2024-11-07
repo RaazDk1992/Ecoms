@@ -1,4 +1,4 @@
-package com.RaazDk.eComs.security.requests;
+package com.RaazDk.eComs.security.response;
 
 import lombok.Getter;
 import lombok.Setter;

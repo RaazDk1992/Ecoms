@@ -1,9 +1,13 @@
 package com.RaazDk.eComs.controller;
 
+import com.RaazDk.eComs.models.EcomUser;
+import com.RaazDk.eComs.repository.EcomUserRepository;
 import com.RaazDk.eComs.security.jwt.JwtUtils;
 import com.RaazDk.eComs.security.requests.LoginRequest;
-import com.RaazDk.eComs.security.requests.LoginResponse;
-import org.apache.coyote.Response;
+import com.RaazDk.eComs.security.requests.SignupRequest;
+import com.RaazDk.eComs.security.response.LoginResponse;
+import com.RaazDk.eComs.security.response.MessageResponse;
+import com.RaazDk.eComs.services.EcomUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +35,9 @@ public class AuthController {
     JwtUtils jwtUtils;
     @Autowired
     AuthenticationManager authenticationManager;
+
+    @Autowired
+    EcomUserService userService;
 
     @PostMapping("/login")
     public ResponseEntity<?>login(@RequestBody LoginRequest loginRequest){
@@ -61,6 +68,12 @@ public class AuthController {
         LoginResponse loginResponse = new LoginResponse(jwtToken,roles,details.getUsername());
         return ResponseEntity.ok(loginResponse);
 
+    }
+
+    @PostMapping("/signup")
+    public ResponseEntity<?> signup(@RequestBody SignupRequest userDetails){
+
+       return userService.saveUser(userDetails);
     }
 
 }
