@@ -9,4 +9,5 @@ public interface EcomUserService {
     public ResponseEntity<?> saveUser(SignupRequest request);
     public ResponseEntity<?> updatePassword(String oldPassword, String newPassword);
 
+    EcomUser findByUsername(String username);
 }

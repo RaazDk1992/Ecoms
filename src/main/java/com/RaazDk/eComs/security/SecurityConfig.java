@@ -45,11 +45,13 @@ public class SecurityConfig {
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 
         http.csrf(csrf-> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .ignoringRequestMatchers("/api/auth/**"));
+                .ignoringRequestMatchers("/api/auth/**")
+                .ignoringRequestMatchers("/api/getcsrf"));
         http.authorizeHttpRequests((request)->request
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 .requestMatchers("/api/public/**").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/getcsrf").permitAll()
                 .anyRequest().authenticated());
         http.exceptionHandling((exception)->exception.authenticationEntryPoint(unAuthorizedHandler));
         http.addFilterBefore(authFilter(), UsernamePasswordAuthenticationFilter.class);

@@ -26,12 +26,17 @@ public class EcomUser {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userId;
     @Column(name = "username")
+
+
     @NotBlank
     private String userName;
     @NotBlank
     @Column(name = "email")
     private String email;
+    @NotBlank
     private String password;
+    private String firstName;
+    private String lastName;
     private boolean accountNonLocked = true;
     private boolean accountNonExpired = true;
     private boolean credentialsNonExpired=true;

@@ -7,7 +7,9 @@ import com.RaazDk.eComs.security.requests.LoginRequest;
 import com.RaazDk.eComs.security.requests.SignupRequest;
 import com.RaazDk.eComs.security.response.LoginResponse;
 import com.RaazDk.eComs.security.response.MessageResponse;
+import com.RaazDk.eComs.security.response.UserInfoResponse;
 import com.RaazDk.eComs.services.EcomUserService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,12 +17,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -62,7 +63,7 @@ public class AuthController {
         UserDetails details = (UserDetails) authentication.getPrincipal();
         String jwtToken = jwtUtils.generateTokenFromUsername(details);
         List<String> roles =details.getAuthorities().stream()
-                .map(item ->item.getAuthority())
+                .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
         LoginResponse loginResponse = new LoginResponse(jwtToken,roles,details.getUsername());
@@ -76,4 +77,30 @@ public class AuthController {
        return userService.saveUser(userDetails);
     }
 
+
+    @GetMapping("/getUser")
+    public ResponseEntity getUser(@AuthenticationPrincipal UserDetails userDetails){
+
+        EcomUser user = userService.findByUsername(userDetails.getUsername());
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .toList();
+
+        UserInfoResponse response = new UserInfoResponse(
+                user.getUserId(),
+                user.getUserName(),
+                user.getEmail(),
+                user.isAccountNonLocked(),
+                user.isAccountNonExpired(),
+                user.isCredentialsNonExpired(),
+                user.isEnabled(),
+                user.getCredentialsExpiryDate(),
+                user.getAccountExpiryDate(),
+                user.is2faEnabled(),
+                roles
+        );
+
+        return ResponseEntity.ok().body(response);
+
+    }
 }

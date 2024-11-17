@@ -80,4 +80,10 @@ public class EComUserServiceIml implements EcomUserService {
     public ResponseEntity<?> updatePassword(String oldPassword, String newPassword) {
         return null;
     }
+
+    @Override
+    public EcomUser findByUsername(String username) {
+        return null;
+    }
+
 }
