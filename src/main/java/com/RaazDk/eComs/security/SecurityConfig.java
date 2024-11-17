@@ -47,6 +47,7 @@ public class SecurityConfig {
         http.csrf(csrf-> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 .ignoringRequestMatchers("/api/auth/**")
                 .ignoringRequestMatchers("/api/getcsrf"));
+
         http.authorizeHttpRequests((request)->request
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 .requestMatchers("/api/public/**").permitAll()

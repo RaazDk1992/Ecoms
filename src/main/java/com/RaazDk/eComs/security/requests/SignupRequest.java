@@ -24,6 +24,9 @@ public class SignupRequest {
     private String email;
     @NotBlank
     private String password;
+
+    private String firstName;
+    private String lastName;
     private boolean accountNonLocked = true;
     private boolean accountNonExpired = true;
     private boolean credentialsNonExpired=true;
