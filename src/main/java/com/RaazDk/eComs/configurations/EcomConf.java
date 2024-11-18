@@ -12,7 +12,7 @@ public class EcomConf  implements WebMvcConfigurer {
     @Value("${file.upload-fullpath}")
     private String resourceLocation;
 
-    @Value("${front.end")
+    @Value("${front.end}")
     private String frontEndUrl;
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

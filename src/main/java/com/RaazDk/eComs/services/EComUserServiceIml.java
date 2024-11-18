@@ -30,6 +30,7 @@ public class EComUserServiceIml implements EcomUserService {
     @Override
     public ResponseEntity<?> saveUser(SignupRequest request) {
         // Check for existing username and email
+
         if (userRepository.existsByUserName(request.getUserName())) {
             return ResponseEntity.badRequest().body(new MessageResponse("Username already in use."));
         }
@@ -45,6 +46,7 @@ public class EComUserServiceIml implements EcomUserService {
         user.setUserName(request.getUserName());
         user.setEmail(request.getEmail());
         user.setPassword(encoder.encode(request.getPassword())); // Encrypt password here
+
         user.setAccountNonLocked(request.isAccountNonLocked());
         user.setAccountNonExpired(request.isAccountNonExpired());
         user.setCredentialsNonExpired(request.isCredentialsNonExpired());

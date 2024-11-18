@@ -73,7 +73,6 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody SignupRequest userDetails){
-
        return userService.saveUser(userDetails);
     }
 
