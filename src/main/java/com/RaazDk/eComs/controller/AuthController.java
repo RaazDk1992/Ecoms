@@ -8,6 +8,7 @@ import com.RaazDk.eComs.security.requests.SignupRequest;
 import com.RaazDk.eComs.security.response.LoginResponse;
 import com.RaazDk.eComs.security.response.MessageResponse;
 import com.RaazDk.eComs.security.response.UserInfoResponse;
+import com.RaazDk.eComs.security.services.EcomUserDetails;
 import com.RaazDk.eComs.services.EcomUserService;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,8 +61,8 @@ public class AuthController {
         }
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        UserDetails details = (UserDetails) authentication.getPrincipal();
-        String jwtToken = jwtUtils.generateTokenFromUsername(details);
+        UserDetails details = (EcomUserDetails) authentication.getPrincipal();
+        String jwtToken = jwtUtils.generateTokenFromUsername((EcomUserDetails) details);
         List<String> roles =details.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());

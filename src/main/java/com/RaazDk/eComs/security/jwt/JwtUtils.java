@@ -2,6 +2,8 @@ package com.RaazDk.eComs.security.jwt;
 
 
 
+import com.RaazDk.eComs.models.EcomUser;
+import com.RaazDk.eComs.security.services.EcomUserDetails;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
@@ -44,7 +46,7 @@ public class JwtUtils {
 
 
 
-    public String generateTokenFromUsername(UserDetails user){
+    public String generateTokenFromUsername(EcomUserDetails user){
         String username = user.getUsername();
         long expDate = new Date().getTime()+Long.parseLong(jwtExpirationMs);
         return Jwts.builder()

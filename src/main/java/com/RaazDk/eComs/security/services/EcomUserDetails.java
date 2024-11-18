@@ -16,6 +16,8 @@ public class EcomUserDetails implements UserDetails {
 
     private Long Id;
     private String username;
+    private String firstName;
+    private String lastName;
     private String email;
     @JsonIgnore
     private String password;
@@ -25,11 +27,13 @@ public class EcomUserDetails implements UserDetails {
 
 
 
-    public EcomUserDetails(Long id, String userName, String email, String password, boolean is2faEnabled, Collection<? extends GrantedAuthority> authorities){
+    public EcomUserDetails(Long id, String userName,String firstName, String lastName, String email, String password, boolean is2faEnabled, Collection<? extends GrantedAuthority> authorities){
 
         this.Id = id;
         this.username = userName;
         this.email = email;
+        this.firstName =firstName;
+        this.lastName = lastName;
         this.password = password;
         this.is2faEnabled = is2faEnabled;
         this.authorities = authorities;
@@ -75,8 +79,10 @@ public class EcomUserDetails implements UserDetails {
         GrantedAuthority authority = new SimpleGrantedAuthority(user.getRole().toString());
         return new EcomUserDetails(
                 user.getUserId(),
-                user.getEmail(),
                 user.getUserName(),
+                user.getEmail(),
+                user.getFirstName(),
+                user.getLastName(),
                 user.getPassword(),
                 user.is2faEnabled(),
                 List.of(authority)
