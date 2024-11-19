@@ -7,12 +7,12 @@ import com.RaazDk.eComs.repository.EcomUserRepository;
 import com.RaazDk.eComs.repository.RoleRepository;
 import com.RaazDk.eComs.security.requests.SignupRequest;
 import com.RaazDk.eComs.security.response.MessageResponse;
-import com.RaazDk.eComs.services.EcomUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -86,6 +86,22 @@ public class EComUserServiceIml implements EcomUserService {
     @Override
     public EcomUser findByUsername(String username) {
         return null;
+    }
+
+    @Override
+    public ResponseEntity<?> registerUser(EcomUser ecomUser) {
+        try {
+            userRepository.save(ecomUser);
+        }catch (Exception ex){
+            return ResponseEntity.badRequest().body("Exception in registering"+ex.toString());
+        }
+        return ResponseEntity.ok().body("Added successfully");
+    }
+
+    @Override
+    public Optional<EcomUser> findByEmail(String email) {
+
+        return userRepository.findByEmail(email);
     }
 
 }

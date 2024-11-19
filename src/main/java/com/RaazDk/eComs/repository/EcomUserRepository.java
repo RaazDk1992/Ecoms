@@ -11,6 +11,8 @@ public interface EcomUserRepository  extends JpaRepository<EcomUser,Long> {
 
     Optional<EcomUser> findByUserName(String username);
 
+    Optional<EcomUser> findByEmail(String email);
+
     boolean existsByUserName(String username);
 
     boolean existsByEmail(@NotBlank @Size(min = 8, max = 50) String email);

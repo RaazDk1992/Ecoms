@@ -44,6 +44,7 @@ public class EcomUser {
     private LocalDate credentialsExpiryDate;
     private LocalDate accountExpiryDate;
     private boolean is2faEnabled = false;
+    private String signupMethod;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
     @JoinColumn(name = "role_id", referencedColumnName = "role_id")

@@ -1,5 +1,6 @@
 package com.RaazDk.eComs.security;
 
+import com.RaazDk.eComs.configurations.Oauth2SuccessHandler;
 import com.RaazDk.eComs.models.AppRole;
 import com.RaazDk.eComs.models.EcomUser;
 import com.RaazDk.eComs.models.Role;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -35,6 +37,12 @@ public class SecurityConfig {
 
     @Autowired
     AuthEntryPoint unAuthorizedHandler;
+
+
+    @Autowired
+    @Lazy
+    Oauth2SuccessHandler xsuccessHandler;
+
     @Bean
     public AuthFilter authFilter(){
         return new AuthFilter();
@@ -46,14 +54,19 @@ public class SecurityConfig {
 
         http.csrf(csrf-> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 .ignoringRequestMatchers("/api/auth/**")
-                .ignoringRequestMatchers("/api/getcsrf"));
+                .ignoringRequestMatchers("/api/getcsrf")
+                .ignoringRequestMatchers("/api/oauth2/**"));
 
         http.authorizeHttpRequests((request)->request
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 .requestMatchers("/api/public/**").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/getcsrf").permitAll()
-                .anyRequest().authenticated());
+                .requestMatchers("/oauth2/**").permitAll()
+                .anyRequest().authenticated())
+                .oauth2Login(o2->{o2.successHandler(xsuccessHandler);})
+                ;
+
         http.exceptionHandling((exception)->exception.authenticationEntryPoint(unAuthorizedHandler));
         http.addFilterBefore(authFilter(), UsernamePasswordAuthenticationFilter.class);
         http.httpBasic(withDefaults());
